@@ -1,0 +1,14 @@
+### Variables
+@baseUrl = http://localhost:3000/api
+### ENVIAR CONTACTO CON CONFIRMACION Y FEEDBACK
+POST {{baseUrl}}/contacto/enviar
+Content-Type: application/json
+
+{
+  "to": "mario.garciabernal41807@gmail.com",
+  "subject": "PRUEBA DE CONTACTO",
+  "html": "<h1>Hola</h1><p>Este es un correo de prueba</p>",
+  "userEmail": "mrgbplay3@gmail.com",
+  "userName": "Mario García Bernal",
+  "feedbackMessage": "Gracias por tu mensaje. Hemos recibido tu consulta y la estamos procesando."
+}

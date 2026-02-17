@@ -1,0 +1,22 @@
+### NEWSLETTER ROUTES
+
+### Variables
+@baseUrl = http://localhost:3000/api
+
+
+### 1. SUSCRIBIRSE AL NEWSLETTER - POST
+POST {{baseUrl}}/newsletter/suscribirse
+Content-Type: application/json
+
+{
+  "email": "mario.garcia.bernal41807@gmail.com",
+  "name": "Mario García"
+}
+
+### 2. DESUSCRIBIRSE - GET (muestra página de confirmación)
+GET {{baseUrl}}/newsletter/desuscribirse
+
+### 3. CONFIRMAR DESUSCRIPCIÓN - POST (hashSubscription pasa a false)
+POST {{baseUrl}}/newsletter/desuscribirse/confirmar
+
+

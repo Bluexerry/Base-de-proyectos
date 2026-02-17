@@ -1,0 +1,35 @@
+### Variables
+@baseUrl = http://localhost:3000/api
+
+### AUTH ROUTES
+### 1. REGISTRAR UN NUEVO USUARIO - POST
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Juan Pérez",
+  "email": "juan@example.com",
+  "password": "password123"
+}
+
+### 2. REGISTRAR OTRO USUARIO - POST
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "María García",
+  "email": "maria@example.com",
+  "password": "clave456"
+}
+
+### 3. OBTENER TODOS LOS USUARIOS - GET
+GET {{baseUrl}}/auth/users
+Content-Type: application/json
+
+### 4. OBTENER USUARIO POR ID - GET (Cambiar el ID con uno real)
+GET {{baseUrl}}/auth/users/6992f2617f3a553c75abcaf4
+Content-Type: application/json
+
+### 5. ELIMINAR USUARIO - DELETE (Cambiar el ID con uno real)
+DELETE {{baseUrl}}/auth/users/6992f2617f3a553c75abcaf4
+Content-Type: application/json

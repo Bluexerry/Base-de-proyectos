@@ -1,9 +1,17 @@
 import express from 'express';
-import diagnosticRoutes from './diagnosticRoutes.js';
+import authRoutes from './authRoutes.js';
+import contactoRoutes from './contactoRoutes.js';
+import newsLetterRoutes from './newsLetterRoutes.js';
 
 const router = express.Router();
 
-// Ruta de diagnóstico
-router.use('/diagnostic', diagnosticRoutes);
+// Rutas de autenticación
+router.use('/auth', authRoutes);
+
+// Rutas de contacto
+router.use('/contacto', contactoRoutes);
+
+// Rutas de newsletter
+router.use('/newsletter', newsLetterRoutes);
 
 export default router;

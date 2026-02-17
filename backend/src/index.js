@@ -12,7 +12,6 @@ const startServer = async () => {
             console.log(`✅ Servidor funcionando en puerto ${config.port}`);
             console.log(`🌍 Entorno: ${config.nodeEnv}`);
             console.log(`🔗 URL: http://localhost:${config.port}`);
-            console.log(`🩺 Diagnóstico: http://localhost:${config.port}/api/diagnostic`);
         });
 
     } catch (error) {
