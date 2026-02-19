@@ -68,8 +68,24 @@ export const deleteUserController = async (req, res, next) => {
     }
 };
 
+// Login usuario
+// Recibe email y password, verifica credenciales y devuelve el token JWT.
+// El token debe guardarse en el frontend (localStorage) para usarlo en peticiones protegidas.
+export const loginController = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+        const result = await authService.loginUser(email, password);
+        logger.info(`Login exitoso: ${email}`);
+        res.status(200).json({ success: true, message: 'Login exitoso', data: result });
+    } catch (error) {
+        // next(error) pasa el error al middleware errorHandler para que lo gestione
+        next(error);
+    }
+};
+
 export default {
     registerController,
+    loginController,
     getAllUsersController,
     getUserController,
     deleteUserController

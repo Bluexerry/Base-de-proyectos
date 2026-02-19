@@ -1,6 +1,7 @@
 import express from 'express';
 import {
     registerController,
+    loginController,
     getAllUsersController,
     getUserController,
     deleteUserController
@@ -10,6 +11,9 @@ const router = express.Router();
 
 // Registrar usuario
 router.post('/register', registerController);
+
+// Login
+router.post('/login', loginController);
 
 // Obtener todos los usuarios
 router.get('/users', getAllUsersController);

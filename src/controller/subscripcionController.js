@@ -2,7 +2,7 @@ import newsLetterService from '../service/newsLetterService.js';
 import logger from '../utils/logger.js';
 import jwt from 'jsonwebtoken';
 import config from '../config.js';
-import Newsletter from '../model/newsletter.js';
+import Newsletter from '../model/Newsletter.js';
 
 /**
  * Suscribir un usuario al newsletter

@@ -76,6 +76,38 @@ export const updateUser = async (id, data) => {
     return user;
 };
 
+// Login usuario
+export const loginUser = async (email, password) => {
+    // Validar que los campos requeridos estén presentes
+    if (!email || !password) {
+        throw new AppError('Por favor proporciona email y contraseña', 400, 'MISSING_FIELDS');
+    }
+
+    // Buscar el usuario por email.
+    // Se usa .select('+password') porque el campo password tiene select:false
+    // en el modelo, es decir, no se devuelve por defecto en las consultas.
+    const user = await User.findOne({ email }).select('+password');
+    if (!user) {
+        // Se usa el mismo mensaje para email y contraseña incorrectos
+        // para no dar pistas de qué campo es incorrecto (seguridad).
+        throw new AppError('Credenciales inválidas', 401, 'INVALID_CREDENTIALS');
+    }
+
+    // Comparar la contraseña ingresada con el hash guardado en la base de datos.
+    // matchPassword está definido en el modelo User usando bcrypt.
+    const isMatch = await user.matchPassword(password);
+    if (!isMatch) {
+        throw new AppError('Credenciales inválidas', 401, 'INVALID_CREDENTIALS');
+    }
+
+    // Si las credenciales son correctas, generar y devolver el token JWT.
+    const token = generateToken(user._id);
+    return {
+        user: { id: user._id, name: user.name, email: user.email },
+        token
+    };
+};
+
 // Eliminar usuario
 export const deleteUser = async (id) => {
     const user = await User.findByIdAndDelete(id);
@@ -87,6 +119,7 @@ export const deleteUser = async (id) => {
 
 export default {
     registerUser,
+    loginUser,
     getUserById,
     getAllUsers,
     updateUser,
