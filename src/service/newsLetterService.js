@@ -1,4 +1,4 @@
-import Newsletter from '../model/newsletter.js';
+import Newsletter from '../model/Newsletter.js';
 import AppError from '../utils/AppError.js';
 import logger from '../utils/logger.js';
 import contactoService from './contactoService.js';
