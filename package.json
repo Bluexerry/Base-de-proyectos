@@ -1,7 +1,7 @@
 {
-  "name": "backend_evenor",
+  "name": "backend_cainsa",
   "version": "1.0.0",
-  "description": "Backend de evenor-tech",
+  "description": "Backend de CAINSA - Caucho Industrial Salteras",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
@@ -10,9 +10,13 @@
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.1",
     "morgan": "^1.10.1",

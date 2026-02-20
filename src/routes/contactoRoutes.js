@@ -1,6 +1,7 @@
 import express from 'express';
 import { enviarMailController } from '../controller/enviarMailController.js';
 import { validateContacto } from '../middleware/contactoMiddleware.js';
+import { contactLimiter } from '../middleware/rateLimiter.js';
 
 const router = express.Router();
 
@@ -17,6 +18,6 @@ const router = express.Router();
  *   feedbackMessage: string (opcional) - respuesta/feedback para el usuario
  * }
  */
-router.post('/enviar', validateContacto, enviarMailController);
+router.post('/enviar', contactLimiter, validateContacto, enviarMailController);
 
 export default router;

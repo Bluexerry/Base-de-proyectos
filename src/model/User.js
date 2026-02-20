@@ -18,45 +18,26 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Por favor proporciona una contraseña'],
-        minlength: [6, 'La contraseña debe tener al menos 6 caracteres'],
+        minlength: [8, 'La contraseña debe tener al menos 8 caracteres'],
+        validate: {
+            validator: (v) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(v),
+            message: 'La contraseña debe tener al menos una mayúscula, una minúscula y un número'
+        },
         select: false
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user'
     }
-});
+}, { timestamps: true });
 
-/*Hash de contraseña antes de guardar
-
-el pre se ejecuta antes de guardar el documento, y 
-el post se ejecuta después de guardar el documento. 
-En este caso, queremos asegurarnos de que la contraseña 
-esté hasheada antes de que el documento se guarde en la base 
-de datos, por lo que utilizamos el pre.
-*/
 userSchema.pre('save', async function(next) {
-/*
- verificar si la contraseña ha sido modificada.
- Esto es importante porque si el usuario actualiza 
- su información pero no cambia la contraseña, no queremos 
- volver a hashear la contraseña que ya está hasheada. 
- Si la contraseña no ha sido modificada, simplemente llamamos a next() 
- para continuar con el proceso de guardado sin hacer nada.
-*/    
-    if (!this.isModified('password')) {
-        next();
-    }
-// Si la contraseña ha sido modificada, procedemos a hashearla.
-//creamos una constante salt que genera un valor aleatorio para el hash de la contraseña.
+    if (!this.isModified('password')) return next();
     const salt = await bcrypt.genSalt(10);
-//Luego, utilizamos bcrypt.hash para hashear la contraseña utilizando el salt generado.
     this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Método para comparar contraseñas
-//Este método se utiliza para comparar la contraseña 
-// ingresada por el usuario con la contraseña hasheada almacenada en la base de datos.
 userSchema.methods.matchPassword = async function(enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };

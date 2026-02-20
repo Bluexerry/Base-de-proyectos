@@ -4,24 +4,31 @@ import {
     loginController,
     getAllUsersController,
     getUserController,
-    deleteUserController
+    deleteUserController,
+    logoutController
 } from '../controller/authController.js';
+import { protect, restrictTo } from '../middleware/authMiddleware.js';
+import { authLimiter } from '../middleware/rateLimiter.js';
+import { validateRegister, validateLogin } from '../middleware/authValidation.js';
 
 const router = express.Router();
 
 // Registrar usuario
-router.post('/register', registerController);
+router.post('/register', authLimiter, validateRegister, registerController);
 
 // Login
-router.post('/login', loginController);
+router.post('/login', authLimiter, validateLogin, loginController);
 
-// Obtener todos los usuarios
-router.get('/users', getAllUsersController);
+// Logout (limpia la cookie)
+router.post('/logout', logoutController);
 
-// Obtener usuario por ID
-router.get('/users/:id', getUserController);
+// Obtener todos los usuarios (solo admin)
+router.get('/users', protect, restrictTo('admin'), getAllUsersController);
 
-// Eliminar usuario
-router.delete('/users/:id', deleteUserController);
+// Obtener usuario por ID (requiere autenticación)
+router.get('/users/:id', protect, getUserController);
+
+// Eliminar usuario (solo admin)
+router.delete('/users/:id', protect, restrictTo('admin'), deleteUserController);
 
 export default router;

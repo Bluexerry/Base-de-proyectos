@@ -1,6 +1,7 @@
 import express from 'express';
 import { suscripcionController, desuscripcionPorTokenController, confirmarDesuscripcionController } from '../controller/subscripcionController.js';
 import { validateSuscripcion } from '../middleware/validarSubscripcion.js';
+import { contactLimiter } from '../middleware/rateLimiter.js';
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ const router = express.Router();
  *   name: string (opcional) - nombre del usuario
  * }
  */
-router.post('/suscribirse', validateSuscripcion, suscripcionController);
+router.post('/suscribirse', contactLimiter, validateSuscripcion, suscripcionController);
 
 /**
  * GET /newsletter/desuscribirse/:token

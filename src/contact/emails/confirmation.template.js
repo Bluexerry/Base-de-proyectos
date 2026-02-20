@@ -1,3 +1,11 @@
+// Escapa caracteres HTML para prevenir inyección en plantillas de email
+const e = (str) => String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
 /**
  * Plantilla de email de confirmación de contacto recibido
  * @param {Object} data - Datos de la confirmación
@@ -17,7 +25,7 @@ export const confirmationTemplate = (data) => {
                     <h2 style="color: #28a745; margin: 0;">¡Mensaje recibido!</h2>
                 </div>
                 
-                <p style="color: #666; font-size: 16px;">Hola ${data.userName || 'Usuario'},</p>
+                <p style="color: #666; font-size: 16px;">Hola ${e(data.userName) || 'Usuario'},</p>
                 
                 <p style="color: #666; font-size: 14px;">
                     Confirmamos que hemos recibido tu mensaje correctamente. Nos pondremos en contacto contigo lo antes posible.
@@ -26,10 +34,10 @@ export const confirmationTemplate = (data) => {
                 <div style="background-color: #e8f5e9; padding: 20px; border-radius: 6px; margin: 25px 0;">
                     <p style="margin: 10px 0; color: #333;"><strong>Detalles de tu mensaje:</strong></p>
                     <p style="margin: 8px 0; color: #666; font-size: 14px;">
-                        <strong>Asunto:</strong> ${data.subject}
+                        <strong>Asunto:</strong> ${e(data.subject)}
                     </p>
                     <p style="margin: 8px 0; color: #666; font-size: 14px;">
-                        <strong>Email:</strong> ${data.userEmail}
+                        <strong>Email:</strong> ${e(data.userEmail)}
                     </p>
                 </div>
                 
@@ -46,7 +54,7 @@ export const confirmationTemplate = (data) => {
                 
                 <p style="color: #999; font-size: 12px; margin: 0;">
                     Saludos cordiales,<br/>
-                    <strong>El equipo de Evenor</strong>
+                    <strong>El equipo de CAINSA</strong>
                 </p>
             </div>
         </div>

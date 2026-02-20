@@ -4,6 +4,14 @@ import jwt from 'jsonwebtoken';
 import config from '../config.js';
 import Newsletter from '../model/Newsletter.js';
 
+// Escapa caracteres HTML para prevenir XSS en respuestas HTML
+const escapeHtml = (str) => String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
 /**
  * Suscribir un usuario al newsletter
  * @param {Object} req - Request object
@@ -12,7 +20,7 @@ import Newsletter from '../model/Newsletter.js';
  */
 export const suscripcionController = async (req, res, next) => {
     try {
-        const { email, name } = req.body;
+        const { email } = req.body;
 
         // Validación básica
         if (!email) {
@@ -23,14 +31,16 @@ export const suscripcionController = async (req, res, next) => {
         }
 
         // Suscribir al newsletter
-        const resultado = await newsLetterService.suscripcion(email, name);
+        const resultado = await newsLetterService.suscripcion(email);
 
         logger.info(`Usuario suscrito al newsletter: ${email}`);
 
         res.status(201).json({
             success: true,
-            message: 'Suscripción exitosa',
-            data: resultado
+            message: 'Suscripción exitosa. Revisa tu email para confirmar.',
+            data: {
+                email: resultado.email
+            }
         });
     } catch (error) {
         next(error);
@@ -198,7 +208,7 @@ export const confirmarDesuscripcionController = async (req, res, next) => {
                     <div class="container">
                         <h1 class="success">✓ Desuscripción Exitosa</h1>
                         <p>Has sido desuscrito exitosamente .</p>
-                        <p>Se ha enviado una confirmación a tu email: <strong>${resultado.email}</strong></p>
+                        <p>Se ha enviado una confirmación a tu email: <strong>${escapeHtml(resultado.email)}</strong></p>
                         <p>Si cambias de opinión, puedes suscribirte nuevamente en cualquier momento.</p>
                         <hr>
                         <p style="color: #666; font-size: 12px;"></p>

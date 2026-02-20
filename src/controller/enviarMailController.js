@@ -7,20 +7,23 @@ import logger from '../utils/logger.js';
  * @param {Object} res - Response object
  * @param {Function} next - Next middleware function
  */
+// Dirección fija de CAINSA — el destinatario nunca viene del cliente
+const CAINSA_EMAIL = process.env.MAIL_USER;
+
 export const enviarMailController = async (req, res, next) => {
     try {
-        const { to, subject, html, text, userName, userEmail, feedbackMessage } = req.body;
+        const { subject, html, text, userName, userEmail, feedbackMessage } = req.body;
 
-        if (!to || !subject || !html) {
+        if (!subject || !html) {
             return res.status(400).json({
                 success: false,
-                message: 'Faltan parámetros requeridos: to, subject, html'
+                message: 'Faltan parámetros requeridos: subject, html'
             });
         }
 
-        // Enviar correo principal
+        // Enviar correo principal siempre a CAINSA
         const resultado = await contactoService.enviarMail({
-            to,
+            to: CAINSA_EMAIL,
             subject,
             html,
             text
@@ -54,7 +57,7 @@ export const enviarMailController = async (req, res, next) => {
         }
         // Loguear el resultado del contacto
         logger.info(`Correo de contacto procesado`, { 
-            destinatario: to,
+            destinatario: CAINSA_EMAIL,
             usuario: userName,
             confirmacionEnviada,
             feedbackEnviado,
@@ -65,7 +68,6 @@ export const enviarMailController = async (req, res, next) => {
             success: true,
             message: 'Contacto procesado exitosamente',
             data: {
-                messageId: resultado.messageId,
                 confirmacionEnviada,
                 feedbackEnviado
             }

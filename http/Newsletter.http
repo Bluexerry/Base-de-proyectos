@@ -10,7 +10,6 @@ Content-Type: application/json
 
 {
   "email": "mario.garcia.bernal41807@gmail.com",
-  "name": "Mario García"
 }
 
 ### 2. DESUSCRIBIRSE - GET (muestra página de confirmación)

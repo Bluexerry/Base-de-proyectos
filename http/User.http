@@ -7,20 +7,16 @@ POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-  "name": "Juan Pérez",
-  "email": "juan@example.com",
-  "password": "password123"
+    "name": "Mario garcia bernal",
+    "email": "mrgbplay3@gmail.com",
+    "password": "clave345"
 }
 
 ### 2. REGISTRAR OTRO USUARIO - POST
 POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
-{
-  "name": "María García",
-  "email": "mario.garcia.bernal41807@example.com",
-  "password": "clave456"
-}
+
 
 ### 3. OBTENER TODOS LOS USUARIOS - GET
 GET {{baseUrl}}/auth/users
